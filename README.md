@@ -1,0 +1,1 @@
+# fastapi-next.js-mongodb-ecommerce-bookshop
