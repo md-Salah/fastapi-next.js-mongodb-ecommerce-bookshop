@@ -6,6 +6,11 @@ name = "pypi"
 [packages]
 jwt = "*"
 python-decouple = "*"
+install = "*"
+motor = "*"
+python-jose = "*"
+python-multipart = "*"
+pymongo = "*"
 
 [dev-packages]
 

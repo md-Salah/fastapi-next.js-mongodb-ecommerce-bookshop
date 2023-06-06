@@ -54,13 +54,13 @@ class UserSchema(BaseModel):
 #     return signJWT(user.id)
 
 @router.get('/me')
-async def profile(token: Annotated[str, Depends(oauth2_scheme)]):
+async def profile(token: str = Depends(oauth2_scheme)):
     decoded_token = decode_and_validate_token(token)
     return {'name': 'Your profile page'}
 
 
 @router.post('/login', response_model=Token)
-async def user_login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
+async def user_login(form_data: OAuth2PasswordRequestForm = Depends()):
     
     user = authenticate_user(users, form_data.username, form_data.password)
     if not user:

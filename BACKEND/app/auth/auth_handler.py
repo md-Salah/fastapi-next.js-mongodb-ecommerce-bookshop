@@ -19,7 +19,7 @@ class Token(BaseModel):
 def create_access_token(data: dict, ACCESS_TOKEN_EXPIRE_MINUTES: float = ACCESS_TOKEN_EXPIRE_MINUTES):
     payload = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    payload.update({"expire": expire.__str__()})
+    payload.update({"expire": expire.isoformat()})
     
     encoded_jwt = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM) # type: ignore
     return encoded_jwt
@@ -35,8 +35,10 @@ def decode_and_validate_token(token:str):
 
     try:
         decoded_token = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM]) # type: ignore
-        format = '%Y-%m-%d %H:%M:%S.%f'
-        if datetime.utcnow() <= datetime.strptime(decoded_token['expire'], format):
+        # format = '%Y-%m-%d %H:%M:%S.%f'
+        # if datetime.utcnow() <= datetime.strptime(decoded_token['expire'], format):
+        
+        if datetime.utcnow().isoformat() <= decoded_token['expire']:
             return decoded_token 
         else:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Token has been expired. Login again.")

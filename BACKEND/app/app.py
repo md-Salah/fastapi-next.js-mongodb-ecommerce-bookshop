@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import users, products, auth
 
+
 def init_app():
     app = FastAPI(
         title="FARM Stack Ecommerce",
@@ -35,8 +36,10 @@ app = init_app()
 async def home():
     return {"message": "Hello World"}   
 
+
 # Users Router
 app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(products.router)
+
 
