@@ -35,10 +35,7 @@ def decode_and_validate_token(token:str):
 
     try:
         decoded_token = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM]) # type: ignore
-        # format = '%Y-%m-%d %H:%M:%S.%f'
-        # if datetime.utcnow() <= datetime.strptime(decoded_token['expire'], format):
-        
-        if datetime.utcnow().isoformat() <= decoded_token['expire']:
+        if datetime.utcnow().isoformat() > decoded_token['expire']:
             return decoded_token 
         else:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Token has been expired. Login again.")
